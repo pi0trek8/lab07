@@ -31,20 +31,11 @@ public class Controller {
 
     private IShop shop;
 
-    private Order order;
-
     private Gui gui;
 
     Mapper mapper = new Mapper();
 
     private Client client;
-
-    IStatusListener iStatusListener = new IStatusListener() {
-        @Override
-        public void statusChanged(int id, Status status) throws RemoteException {
-            refreshStatus(id, status);
-        }
-    };
 
     public Controller() throws RemoteException {
         String name = JOptionPane.showInputDialog(null, "Enter a name:", "Client", JOptionPane.QUESTION_MESSAGE);
@@ -58,7 +49,7 @@ public class Controller {
 
     public void register() {
         try {
-            System.out.println("Registrating to shop...");
+            System.out.println("Registering to shop...");
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             shop = (IShop) registry.lookup(URL);
             System.out.println("Registered!!");
@@ -67,7 +58,7 @@ public class Controller {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Unexpected error has occured!");
+            System.out.println("Unexpected error has occurred!");
         }
     }
 
@@ -106,10 +97,7 @@ public class Controller {
         gui.getOrderButton().addActionListener(e -> {
             PlacedOrder placedOrder;
             try {
-                int id = placeOrder();
-                placedOrder = new PlacedOrder();
-                placedOrder.setId(id);
-                placedOrder.setStatus(Status.NEW);
+                placedOrder = placeOrder();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
@@ -165,14 +153,19 @@ public class Controller {
         shop.unsubscribe(id);
     }
 
-    private Integer placeOrder() throws RemoteException {
+    private PlacedOrder placeOrder() throws RemoteException {
         Order order = new Order(id);
 
         for (var orderLine : orders) {
             order.addOrderLine(orderLine);
         }
         orders.clear();
+        int orderId = shop.placeOrder(order);
+        PlacedOrder placedOrder = new PlacedOrder();
+        placedOrder.setId(orderId);
+        placedOrder.setOrder(order);
+        placedOrder.setStatus(Status.NEW);
 
-        return shop.placeOrder(order);
+        return placedOrder;
     }
 }

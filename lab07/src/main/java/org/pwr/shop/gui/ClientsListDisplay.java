@@ -3,6 +3,7 @@ package org.pwr.shop.gui;
 import model.Client;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.Map;
@@ -17,9 +18,13 @@ public class ClientsListDisplay extends JPanel {
         tableModel.addColumn("Client id");
         tableModel.addColumn("Name");
 
+
         productTable = new JTable(tableModel);
         productTable.setPreferredScrollableViewportSize(new Dimension(700, 300));
         productTable.setFillsViewportHeight(true);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        productTable.setDefaultRenderer(Object.class, centerRenderer);
 
         JScrollPane scrollPane = new JScrollPane(productTable);
 
@@ -27,6 +32,7 @@ public class ClientsListDisplay extends JPanel {
 
         setSize(700, 400);
         setVisible(true);
+        
     }
 
     public void addProduct(int id, Client client) {

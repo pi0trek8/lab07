@@ -9,8 +9,6 @@ public class PlacedOrder {
     private Order order;
 
     private Status status;
-
-
     public Integer getId() {
         return id;
     }

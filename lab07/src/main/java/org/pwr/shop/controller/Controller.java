@@ -10,7 +10,6 @@ import java.rmi.registry.Registry;
 
 public class Controller {
     IShop shop;
-
     private static Integer PORT = 1099;
     private static String URL = "shop";
 
@@ -26,6 +25,4 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
-
 }

@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,8 @@ public class OrderListDisplay extends JPanel {
     public OrderListDisplay() {
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Id");
-        tableModel.addColumn("client id ");
+        tableModel.addColumn("Client id");
+        tableModel.addColumn("Price");
         tableModel.addColumn("Status");
 
         productTable = new JTable(tableModel);
@@ -37,8 +40,11 @@ public class OrderListDisplay extends JPanel {
     }
 
     public void addProducts(List<SubmittedOrder> submittedOrders) {
-        for(SubmittedOrder submittedOrder : submittedOrders) {
-            tableModel.addRow(new Object[]{submittedOrder.getId(), submittedOrder.getOrder().getClientID(), submittedOrder.getStatus()});
+        for (SubmittedOrder submittedOrder : submittedOrders) {
+            tableModel.addRow(new Object[]{submittedOrder.getId(),
+                    submittedOrder.getOrder().getClientID(),
+                    BigDecimal.valueOf(submittedOrder.getOrder().getCost()).setScale(2, RoundingMode.HALF_UP),
+                    submittedOrder.getStatus()});
         }
     }
 

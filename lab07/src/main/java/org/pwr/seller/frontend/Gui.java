@@ -35,7 +35,6 @@ public class Gui extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
-        // Create a grid bag constraints object
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(5, 5, 5, 5);
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -80,11 +79,9 @@ public class Gui extends JFrame {
         return submittedOrdersList;
     }
 
-
     public JButton getEditButton() {
         return editButton;
     }
-
 
     public JButton getClearButton() {
         return clearButton;
@@ -97,5 +94,4 @@ public class Gui extends JFrame {
     public JTextField getStatusTextField() {
         return statusTextField;
     }
-
 }

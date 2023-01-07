@@ -23,13 +23,13 @@ public class Controller {
 
     public void initialize() {
         try {
-            System.out.println("Registrating to shop...");
+            System.out.println("Registering to shop...");
             Registry registry = LocateRegistry.getRegistry(HOST, PORT);
             shop = (IShop) registry.lookup(URL);
             System.out.println("Registered!!");
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Unexpected error has occured!");
+            System.out.println("Unexpected error has occurred!");
         }
     }
 
