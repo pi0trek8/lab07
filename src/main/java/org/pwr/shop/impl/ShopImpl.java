@@ -31,8 +31,10 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
             clientIdToClient.put(allClients, c);
             System.out.println(allClients);
             refreshClients();
+            int id = allClients++;
+            System.out.println("New client with id = " + id + " has been registered.");
 
-            return allClients++;
+            return id;
         }
         return -1;
     }

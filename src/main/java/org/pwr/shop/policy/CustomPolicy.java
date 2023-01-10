@@ -23,7 +23,7 @@ public class CustomPolicy extends Policy {
     }
 
     private void addPermissions() {
-        SocketPermission socketPermission = new SocketPermission("*:1024-", "connect, resolve");
+        SocketPermission socketPermission = new SocketPermission("localhost:1099", "connect, resolve");
         PropertyPermission propertyPermission = new PropertyPermission("*", "read, write");
 
         perms.add(socketPermission);

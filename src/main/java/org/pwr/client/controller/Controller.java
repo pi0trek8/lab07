@@ -51,13 +51,18 @@ public class Controller {
     }
 
     public void register() {
+//        if(System.getSecurityManager() == null) {
+//            System.setSecurityManager(new SecurityManager());
+//            System.out.println("Security manager has been set");
+//        }
+
         try {
             System.out.println("Registering to shop...");
-            Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+            Registry registry = LocateRegistry.getRegistry(HOST,PORT);
             shop = (IShop) registry.lookup(URL);
             System.out.println("Registered!!");
             id = shop.register(client);
-            System.out.println("New Client with id = " + id + " has been registered.");
+            System.out.println("Yours id = " + id);
 
         } catch (Exception e) {
             e.printStackTrace();
