@@ -5,6 +5,8 @@ import org.pwr.shop.impl.ShopImpl;
 import org.pwr.shop.policy.CustomPolicy;
 
 import javax.swing.*;
+import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -26,8 +28,9 @@ public class Controller {
         shop = new ShopImpl();
         System.out.println("Launching shop...");
         try {
-            Registry registry = LocateRegistry.createRegistry(PORT);
-            registry.bind(URL, shop);
+//            Registry registry = LocateRegistry.createRegistry(PORT);
+//            registry.bind(URL, shop);
+            Naming.bind(URL, shop);
             System.out.println("Shop successfully started!");
         } catch (Exception e) {
             System.out.println("Server crashed!");
