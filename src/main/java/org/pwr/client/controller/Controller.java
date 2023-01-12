@@ -11,11 +11,13 @@ import org.pwr.client.gui.Gui;
 import org.pwr.client.mapper.Mapper;
 import org.pwr.client.model.PlacedOrder;
 import org.pwr.client.status.StatusListenerImpl;
+import org.pwr.client.policy.CustomPolicy;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.Policy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -51,10 +53,12 @@ public class Controller {
     }
 
     public void register() {
-//        if(System.getSecurityManager() == null) {
-//            System.setSecurityManager(new SecurityManager());
-//            System.out.println("Security manager has been set");
-//        }
+        Policy.setPolicy(new CustomPolicy());
+
+        if(System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+            System.out.println("Security manager has been set");
+        }
 
         try {
             System.out.println("Registering to shop...");
