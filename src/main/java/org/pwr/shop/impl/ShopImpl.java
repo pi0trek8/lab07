@@ -7,18 +7,17 @@ import org.pwr.shop.exception.OrderNotFoundException;
 import org.pwr.shop.gui.Gui;
 import org.pwr.shop.mapper.Mapper;
 
-import javax.swing.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 public class ShopImpl extends UnicastRemoteObject implements IShop {
-    Gui gui = new Gui();
+    private final Gui gui = new Gui();
     private static Integer allClients = 0;
-    Map<Integer, Client> clientIdToClient = new HashMap<>();
+    private final Map<Integer, Client> clientIdToClient = new HashMap<>();
 
-    List<SubmittedOrder> submittedOrders = new ArrayList<>();
-    Mapper mapper = new Mapper();
+    private final List<SubmittedOrder> submittedOrders = new ArrayList<>();
+    private final Mapper mapper = new Mapper();
     private Map<Integer, IStatusListener> clientIdToStatusListener = new HashMap<>();
 
     public ShopImpl() throws RemoteException {
@@ -52,11 +51,21 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
         item2.setPrice(30.5f);
 
         var item3 = new ItemType();
-        item3.setPrice(5.5f);
-        item3.setName("Pen");
-        item3.setCategory(1);
+        item3.setPrice(15.2f);
+        item3.setName("Hat");
+        item3.setCategory(3);
 
-        return List.of(item1, item2, item3);
+        var item4 = new ItemType();
+        item4.setPrice(30f);
+        item4.setName("T-Shirt");
+        item4.setCategory(3);
+
+        var item5 = new ItemType();
+        item5.setPrice(20);
+        item5.setName("Phone cover");
+        item5.setCategory(1);
+
+        return List.of(item1, item2, item3, item4, item5);
     }
 
     @Override
@@ -65,7 +74,8 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
         submittedOrders.add(submittedOrder);
 
         System.out.println("Placed order. Order id " + submittedOrder.getId());
-        System.out.println("Info: " + submittedOrder.getOrder().getOll().get(0).getIt().getName());
+        System.out.println("Info:");
+        submittedOrder.getOrder().getOll().stream().map(orl -> orl.getIt().getName()).forEach(System.out::println);
 
         refreshOrders();
 
@@ -81,8 +91,8 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
     public boolean setStatus(int id, Status status) throws RemoteException {
         Optional<SubmittedOrder> submittedOrderOptional = submittedOrders.stream()
                 .filter(order -> order.getId() == id)
-
                 .findFirst();
+
         if (submittedOrderOptional.isEmpty()){
             return false;
         }
@@ -116,6 +126,8 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
         if (clientIdToStatusListener.containsKey(clientId)){
             return false;
         }
+
+        System.out.println("Client with id = " + clientId + " has subscribed to his order");
         clientIdToStatusListener.put(clientId, ic);
         return true;
     }
@@ -126,9 +138,11 @@ public class ShopImpl extends UnicastRemoteObject implements IShop {
         if (!clientIdToStatusListener.containsKey(clientId)){
             return false;
         }
+        System.out.println("Client with id = " + clientId + " has subscribed to his order");
+
 
         clientIdToStatusListener.remove(clientId);
-        return false;
+        return true;
     }
 
     private void refreshOrders() {

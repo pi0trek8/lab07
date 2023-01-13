@@ -30,7 +30,7 @@ public class Gui extends JFrame {
     private JTextField orderIdTextField;
 
     public Gui(String name) {
-        setTitle(name + " view");
+        setTitle(name + "'s view");
         setSize(new Dimension(700, 500));
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

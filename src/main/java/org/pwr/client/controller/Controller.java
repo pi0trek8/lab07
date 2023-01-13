@@ -10,8 +10,8 @@ import org.pwr.client.exception.NoSuchOrderException;
 import org.pwr.client.gui.Gui;
 import org.pwr.client.mapper.Mapper;
 import org.pwr.client.model.PlacedOrder;
-import org.pwr.client.status.StatusListenerImpl;
 import org.pwr.client.policy.CustomPolicy;
+import org.pwr.client.status.StatusListenerImpl;
 
 import javax.swing.*;
 import java.rmi.RemoteException;
@@ -23,22 +23,22 @@ import java.util.List;
 import java.util.Objects;
 
 public class Controller {
-    public final static String URL = "shop";
-    public final static String HOST = "localhost";
-    public final static int PORT = 1099;
+    private static String URL = "shop";
+    private static String HOST = "localhost";
+    private static int PORT = 1099;
 
     private static Integer id;
 
-    List<OrderLine> orders = new ArrayList<>();
-    List<PlacedOrder> placedOrders = new ArrayList<>();
+    private final List<OrderLine> orders = new ArrayList<>();
+    private final List<PlacedOrder> placedOrders = new ArrayList<>();
 
-    IStatusListener statusListener = new StatusListenerImpl(this);
+    private final IStatusListener statusListener = new StatusListenerImpl(this);
 
     private IShop shop;
 
     private Gui gui;
 
-    Mapper mapper = new Mapper();
+    private final Mapper mapper = new Mapper();
 
     private Client client;
 
@@ -52,7 +52,14 @@ public class Controller {
         gui = new Gui(name);
     }
 
-    public void register() {
+    public void register(String[] args) {
+
+        if(args.length > 0 ) {
+            PORT = Integer.parseInt(args[0]);
+            URL = args[1];
+            HOST = args[2];
+        }
+
         Policy.setPolicy(new CustomPolicy());
 
         if(System.getSecurityManager() == null) {
@@ -125,28 +132,38 @@ public class Controller {
         });
 
         gui.getSubscribeButton().addActionListener(e -> {
+            boolean isSuccess;
             try {
-                shop.subscribe(statusListener, id);
+                isSuccess = shop.subscribe(statusListener, id);
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            gui.getSubscribeButton().setEnabled(false);
-            gui.getUnsubscribeButton().setEnabled(true);
+            if(isSuccess) {
+                gui.getSubscribeButton().setEnabled(false);
+                gui.getUnsubscribeButton().setEnabled(true);
+                System.out.println("Subscribed to order!");
+            }
         });
 
         gui.getUnsubscribeButton().addActionListener(e -> {
+            boolean isSuccess;
             try {
-                unsubscribe();
+                isSuccess = unsubscribe();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            gui.getSubscribeButton().setEnabled(true);
-            gui.getUnsubscribeButton().setEnabled(false);
+
+            if(isSuccess) {
+                gui.getSubscribeButton().setEnabled(true);
+                gui.getUnsubscribeButton().setEnabled(false);
+                System.out.println("Unsubscribed to order!");
+
+            }
         });
 
         gui.getRefreshButton().addActionListener(e -> {
             Status newStatus;
-            Integer id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter an id:", "Delete", JOptionPane.QUESTION_MESSAGE));
+            int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter an id:", "Delete", JOptionPane.QUESTION_MESSAGE));
             try {
                 newStatus = shop.getStatus(id);
             } catch (RemoteException ex) {
@@ -183,15 +200,11 @@ public class Controller {
             throw new NoSuchOrderException("There is no order with id = " + id);
         }
         order.get().setStatus(newStatus);
-        refresh();
-    }
-
-    private void refresh() {
         gui.getOrderedProductListPage().refresh(placedOrders);
     }
 
-    private void unsubscribe() throws RemoteException {
-        shop.unsubscribe(id);
+    private boolean  unsubscribe() throws RemoteException {
+        return shop.unsubscribe(id);
     }
 
     private PlacedOrder placeOrder() throws RemoteException {

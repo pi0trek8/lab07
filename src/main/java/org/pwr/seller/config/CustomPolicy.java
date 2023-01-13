@@ -1,4 +1,4 @@
-package org.pwr.shop.policy;
+package org.pwr.seller.config;
 
 import java.net.SocketPermission;
 import java.security.CodeSource;

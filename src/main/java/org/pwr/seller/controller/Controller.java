@@ -18,8 +18,9 @@ public class Controller {
         this.service = service;
     }
 
-    public void initialize() {
-        service.initialize();
+    public void initialize(String[] args) {
+
+        service.initialize(args);
     }
 
     public void downloadContent() {

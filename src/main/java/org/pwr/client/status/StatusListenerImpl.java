@@ -13,7 +13,6 @@ public class StatusListenerImpl extends UnicastRemoteObject implements IStatusLi
     public StatusListenerImpl(Controller controller) throws RemoteException {
         this.controller = controller;
     }
-
     @Override
     public void statusChanged(int id, Status status) throws RemoteException {
         controller.refreshStatus(id, status);

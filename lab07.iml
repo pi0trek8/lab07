@@ -9,7 +9,7 @@
     </content>
     <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libraries/gadgets/gadgets-jar/gadgets.jar!/" />
@@ -20,5 +20,18 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gadgets-jar-1.0.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libraries/gadgets/gadgets-jar/1.0.0/gadgets-jar-1.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/libraries/gadgets/gadgets-jar/1.0.0/gadgets-jar-1.0.0.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="gadgets" level="application" />
+    <orderEntry type="library" name="Maven: com.pwr:gadgets:1.0.0" level="project" />
   </component>
 </module>

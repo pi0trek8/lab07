@@ -1,15 +1,13 @@
 package org.pwr.shop.gui;
 
-import model.OrderLine;
 import model.SubmittedOrder;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListDisplay extends JPanel {
@@ -45,6 +43,13 @@ public class OrderListDisplay extends JPanel {
                     submittedOrder.getOrder().getClientID(),
                     BigDecimal.valueOf(submittedOrder.getOrder().getCost()).setScale(2, RoundingMode.HALF_UP),
                     submittedOrder.getStatus()});
+        }
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        for(var i = 0; i < productTable.getColumnModel().getColumnCount(); i++ ){
+            productTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
 
