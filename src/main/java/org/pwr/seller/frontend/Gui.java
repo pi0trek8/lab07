@@ -1,8 +1,11 @@
 package org.pwr.seller.frontend;
 
 
+import model.Status;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.ObjectInputFilter;
 
 public class Gui extends JFrame {
 
@@ -67,10 +70,6 @@ public class Gui extends JFrame {
         panel.add(statusComboBox, constraints);
 
         clearButton = new JButton("Clear");
-        clearButton.addActionListener(e -> {
-            orderIdTextField.setText("");
-            statusTextField.setText("");
-        });
         constraints.gridx = 0;
         constraints.gridy = 2;
         panel.add(clearButton, constraints);
@@ -102,8 +101,28 @@ public class Gui extends JFrame {
     public JTextField getStatusTextField() {
         return statusTextField;
     }
-
     public JComboBox<String> getStatusComboBox() {
         return statusComboBox;
     }
+
+//    public void updateComboBox(Status status) {
+//
+//        if (status.equals(Status.PROCESSING)) {
+////            statusComboBox.removeItemAt(0);
+//            statusComboBox = new JComboBox<>(new String[] {"PROCESSING", "READY", "DELIVERED"});
+//        }else if (status.equals(Status.READY)) {
+//            statusComboBox = new JComboBox<>(new String[] {"READY", "DELIVERED"});
+////            statusComboBox.removeItemAt(0);
+//        } else {
+//            statusComboBox = new JComboBox<>(new String[] {"DELIVERED"});
+////            statusComboBox.removeItemAt(0);
+//        }
+
+//        if (status.equals(Status.NEW)) {
+//
+//
+//        } else if (status.equals(Status.PROCESSING)) {
+//
+//        }
+//    }
 }

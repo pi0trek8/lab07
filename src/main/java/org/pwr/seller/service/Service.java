@@ -50,4 +50,13 @@ public class Service {
     public List<SubmittedOrder> getSubmittedOrders() throws RemoteException {
         return shop.getSubmittedOrders();
     }
+
+    public Status findStatus(Integer id) throws RemoteException {
+        var statusOptional = shop.getSubmittedOrders()
+                .stream().filter(order -> order.getId() == id)
+                .map(SubmittedOrder::getStatus)
+                .findFirst();
+
+        return statusOptional.orElse(Status.NEW);
+    }
 }
