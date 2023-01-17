@@ -12,7 +12,7 @@ import java.security.Policy;
 public class Controller {
     IShop shop;
     private static Integer PORT = 1099;
-    private static String URL = "IShop";
+    private static String URL = "shop";
 
     public void initialize(String[] args) throws RemoteException {
         if(args.length > 0){

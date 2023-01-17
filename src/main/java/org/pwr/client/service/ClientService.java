@@ -17,8 +17,8 @@ import java.util.List;
 
 public class ClientService {
 
-    private static String URL = "IShop";
-    private static String HOST = "192.168.220.15";
+    private static String URL = "shop";
+    private static String HOST = "localhost";
     private static int PORT = 1099;
 
     private IShop shop;
